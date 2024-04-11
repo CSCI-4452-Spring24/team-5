@@ -28,8 +28,8 @@ class WeatherAppTestCase(unittest.TestCase):
         response = self.client.post('/api/weather', json={'zip_code': '00000'})
         self.assertEqual(response.status_code, 200)
         
-        data = json.loads(response.get_data(as_text=True))
-        self.assertIn('error', data)
+        i_data = json.loads(response.get_data(as_text=True))
+        self.assertIn('error', i_data)
         self.assertEqual('Could not find latitude and longitude for the given ZIP code', data['error'])
     
 
