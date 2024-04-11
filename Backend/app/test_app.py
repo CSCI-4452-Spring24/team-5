@@ -25,11 +25,11 @@ class WeatherAppTestCase(unittest.TestCase):
     def test_weather_info_post_invalid_zip(self):
 
         """Test posting a invalid ZIP code returns an error."""
-        response = self.client.post('/api/weather', json={'zip_code': '00000'})
+        response = self.client.post('/api/weather', json={'zip_code': '0000'})
         self.assertEqual(response.status_code, 200)
         
-        i_data = json.loads(response.get_data(as_text=True))
-        self.assertIn('error', i_data)
+        data = json.loads(response.get_data(as_text=True))
+        self.assertIn('error', data)
         self.assertEqual('Could not find latitude and longitude for the given ZIP code', data['error'])
     
 
