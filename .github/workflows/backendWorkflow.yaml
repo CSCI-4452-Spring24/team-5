@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'Backend/**'
+      - 'team-5/Backend/**'
 
 jobs:
 
