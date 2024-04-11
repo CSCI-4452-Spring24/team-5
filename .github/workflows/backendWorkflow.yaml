@@ -1,0 +1,58 @@
+name: CI for StormSentry (github)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Backend/**'
+
+jobs:
+
+  build_and_validate_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and start services
+      run: |
+        docker-compose up --build -d
+        echo "Docker services started successfully."
+      working-directory: ./Backend
+      env:
+        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
+
+    - name: Shutdown Docker Compose services
+      run: docker-compose down
+      working-directory: ./Backend
+      env:
+        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
+
+  test_flask_app:
+    needs: build_and_validate_docker
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+  
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r Backend/app/requirements.txt
+  
+    - name: Run unit tests
+      run: |
+        echo "Running unit tests."
+        python -m unittest test_app.py
+      working-directory: ./Backend/app
+      env:
+        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
