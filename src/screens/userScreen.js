@@ -23,8 +23,13 @@ const UserScreen = () => {
     const fetchWeatherData = async (zipCode) => {
         try {
             const response = await axios.post(
-                'https://992382410602.dkr.ecr.us-east-1.amazonaws.com/stormsentry-backend',
-                { zip_code: zipCode }
+                'https://54.226.214.102:443/api/weather ',
+                { zip_code: zipCode },
+                // {
+                //     headers: {
+                //         'Authorization': `Bearer ${authToken}`
+                //     }
+                // }
             );
             console.log('Response from server:', response.data);
             return response.data;
@@ -59,6 +64,7 @@ const UserScreen = () => {
     
     const handleSubmit = async () => {
         if (!validateZipcode(zipcode)) {
+
             alert('Please enter exactly 5 digits for the zipcode.');
             return;
         } else {
