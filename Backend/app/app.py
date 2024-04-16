@@ -34,7 +34,7 @@ def get_weather_info():
     #process zip code resolution to lat/lon
     latitude, longitude = get_lat_lon_from_zip(zip_code)
     if latitude is None or longitude is None:
-        return jsonify({"error" : "Could not find latitude and longitude for the given ZIP code."}), 404
+        return jsonify({"error" : " Could not find latitude and longitude for the given ZIP code."}), 404
 
     #authenticate weatherAPI connection w/ lat/lon
     weather_api_key = os.environ.get('WEATHER_API_KEY')
