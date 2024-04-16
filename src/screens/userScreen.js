@@ -62,13 +62,13 @@ const UserScreen = () => {
             alert('Please enter exactly 5 digits for the zipcode.');
             return;
         } else {
-            //const response = await fetchWeatherData(zipcode);
-            //if (response) {
-                const response = {
-                    temperature: '72f',
-                }
+            const response = await fetchWeatherData(zipcode);
+            if (response) {
+                // const response = {
+                //     temperature: '72f',
+                // }
                 handleSubmitSuccessful(response);
-            //}
+            }
         }
     };
     
@@ -129,9 +129,11 @@ const UserScreen = () => {
                     )}
 
                     <View style={styles.actionsContainer}>
-                        <TouchableOpacity style={[styles.button, {marginRight: 50}]} onPress={handleReset}>
-                            <Text style={styles.buttonText}>Reset</Text>
-                        </TouchableOpacity>
+                        {showWeather && ( 
+                            <TouchableOpacity style={[styles.button, {marginRight: 50}]} onPress={handleReset}>
+                                <Text style={styles.buttonText}>Reset</Text>
+                            </TouchableOpacity>
+                        )}
                         <SignOutButton />
                     </View>
                         
