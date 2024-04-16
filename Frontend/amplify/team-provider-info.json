@@ -1,0 +1,57 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stormsentry-dev-72fc5-authRole",
+      "UnauthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stormsentry-dev-72fc5-deployment",
+      "UnauthRoleName": "amplify-stormsentry-dev-72fc5-unauthRole",
+      "StackName": "amplify-stormsentry-dev-72fc5",
+      "StackId": "arn:aws:cloudformation:us-east-1:776347966457:stack/amplify-stormsentry-dev-72fc5/1696a350-f56f-11ee-b94d-0e27dde01c81",
+      "AmplifyAppId": "d2zuxczr9qzrdc"
+    },
+    "categories": {
+      "auth": {
+        "stormsentry82ff1777": {},
+        "stormsentry7629c4e3": {}
+      }
+    }
+  },
+  "appdev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stormsentry-appdev-148b8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-appdev-148b8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-appdev-148b8-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stormsentry-appdev-148b8-deployment",
+      "UnauthRoleName": "amplify-stormsentry-appdev-148b8-unauthRole",
+      "StackName": "amplify-stormsentry-appdev-148b8",
+      "StackId": "arn:aws:cloudformation:us-east-1:992382410602:stack/amplify-stormsentry-appdev-148b8/e023f2a0-fbc7-11ee-95c3-125b6ea4e64d",
+      "AmplifyAppId": "d2d96psza5noh"
+    },
+    "categories": {
+      "auth": {
+        "stormsentry27a38ccc": {}
+      }
+    }
+  },
+  "amplifyapp": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stormsentry-amplifyapp-49c4e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-amplifyapp-49c4e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-amplifyapp-49c4e-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stormsentry-amplifyapp-49c4e-deployment",
+      "UnauthRoleName": "amplify-stormsentry-amplifyapp-49c4e-unauthRole",
+      "StackName": "amplify-stormsentry-amplifyapp-49c4e",
+      "StackId": "arn:aws:cloudformation:us-east-1:992382410602:stack/amplify-stormsentry-amplifyapp-49c4e/b9ead8f0-fc3b-11ee-b794-128770972c89",
+      "AmplifyAppId": "d2d96psza5noh"
+    },
+    "categories": {
+      "auth": {
+        "stormsentry27a38ccc": {}
+      }
+    }
+  }
+}
