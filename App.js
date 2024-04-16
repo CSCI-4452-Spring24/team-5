@@ -1,9 +1,8 @@
 
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
-import { Platform } from 'react-native';
 
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, TextInput} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFonts } from 'expo-font';
 import Rain from 'rainy-background-reactnative';
@@ -27,21 +26,6 @@ const SignOutButton = () => {
     );
 };
 
-const fetchWeatherData = async (zipCode, authToken) => {
-    try {
-        const response = await axios.post(
-            'http://fargate-container-url/api/weather',
-            { zipCode },
-            { headers: { Authorization: `Bearer ${token}` } }
-        );
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        throw error;
-    }
-};
-  
-
 const App = () => {
 
     const [loaded] = useFonts({
@@ -53,108 +37,62 @@ const App = () => {
     const [showWeather, setShowWeather] = useState(false);
     const [weatherData, setWeatherData] = useState(null);
 
-    const { user } = useAuthenticator(userSelector);
+    const { user } = useAuthenticator(userSelector)
 
-    // const handleSubmit = async () => {
-        
-    //     const zipRegex = /^\d{5}$/;
-
-    //     if (zipRegex.test(zipcode)) {
-    //         console.log('Submitted zipcode:', zipcode);
-
-    //         try {
-    //             const authToken = user.signInUserSession.accessToken.jwtToken;
-    //             const response = await fetchWeatherData(zipcode, authToken);
-    //             setLocked(true);
-    //             setShowWeather(true);
-    //             setWeatherData(response);
-    //             console.log('Weather data:', weatherData);
-    //           } catch (error) {
-    //             console.error('Error fetching weather data:', error);
-    //             alert('Error fetching weather data. Please try again later.');
-    //             handleReset();
-    //             return;
-    //           }
-    //     } else if (zipcode.trim() !== '' && !zipRegex.test(zipcode)) {
-    //         alert('Please enter exactly 5 digits for the zipcode.');
-    //         return;
-    //     }
-    // };
-
-    //For Testing
-    //For Testing
-    const mockFetchWeatherData = (zipcode) => {
-    
-        // Sample weather data
-        const sampleWeatherData = {
-            temperature: '72°F',
-            conditions: 'Sunny',
-            humidity: '50%',
-            windSpeed: '10 mph'
-        };
-
-        return sampleWeatherData;
+    const fetchWeatherData = async (zipCode) => {
+        try {
+            const response = await axios.post(
+                'http://192.168.50.154:5000/api/weather',
+                { zip_code: zipCode }
+            );
+            console.log('Response from server:', response.data);
+            return response.data;
+        } catch (error) {
+            handleServerError(error);
+            return null;
+        }
     };
-
 
     const validateZipcode = (zipcode) => {
         const zipRegex = /^\d{5}$/;
         return zipRegex.test(zipcode);
     };
     
-    const handleClientError = (message) => {
-        console.error('Client-side error:', message);
-        alert('Error: ' + message);
-        handleReset();
-    };
+    // const handleClientError = (message) => {
+    //     console.error('Client-side error:', message);
+    //     alert('Error: ' + message);
+    //     handleReset();
+    // };
     
     const handleServerError = (error) => {
-        console.error('Server-side error:', error);
-        alert('Error: ' + error);
+        console.error(error); 
+        alert(error.response ? error.response.data.error : 'Server error');
     };
     
-    const handleSuccess = (response) => {
+    
+    const handleSubmitSuccess = (response) => {
         setLocked(true);
         setShowWeather(true);
         setWeatherData(response);
-        console.log('Weather data:', weatherData);
     };
     
     const handleSubmit = async () => {
         if (!validateZipcode(zipcode)) {
             alert('Please enter exactly 5 digits for the zipcode.');
             return;
-        }
-    
-        try {
-            //const authToken = user.signInUserSession.accessToken.jwtToken;
-            //const response = await fetchWeatherData(zipcode, authToken);
-
-            //For Testing
-            const response = mockFetchWeatherData(zipcode);
-            console.log('Response:', response);
-            
-            if (response){
-                handleSuccess(response);
+        } else {
+            const response = await fetchWeatherData(zipcode);
+            if (response) {
+                handleSubmitSuccess(response);
             }
-            
-            // if (response.error) { // Check for server-side error
-            //     handleServerError(response.error);
-            //     return;
-            // } 
-    
-            //handleSuccess(response);
-    
-        } catch (error) {
-            handleClientError('Failed to fetch weather data. Please try again later.');
         }
     };
     
-
     const handleReset = () => {
         setLocked(false);
         setZipcode('');
         setShowWeather(false);
+        setWeatherData(null);
     };
 
     const handleFocus = () => {
@@ -205,7 +143,7 @@ const App = () => {
                             <Text style={styles.infoTitle}> Weather</Text>
                             <View style={styles.weatherInfoContainer}>
                                 <Text>
-                                    {weatherData.temperature}
+                                    {/* {weatherData.temperature} */}
                                 </Text>
                             </View>
                         </View>
