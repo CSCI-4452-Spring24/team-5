@@ -17,5 +17,23 @@
         "stormsentry7629c4e3": {}
       }
     }
+  },
+  "appdev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stormsentry-appdev-148b8-authRole",
+      "UnauthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-appdev-148b8-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::992382410602:role/amplify-stormsentry-appdev-148b8-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stormsentry-appdev-148b8-deployment",
+      "UnauthRoleName": "amplify-stormsentry-appdev-148b8-unauthRole",
+      "StackName": "amplify-stormsentry-appdev-148b8",
+      "StackId": "arn:aws:cloudformation:us-east-1:992382410602:stack/amplify-stormsentry-appdev-148b8/e023f2a0-fbc7-11ee-95c3-125b6ea4e64d",
+      "AmplifyAppId": "d2d96psza5noh"
+    },
+    "categories": {
+      "auth": {
+        "stormsentry27a38ccc": {}
+      }
+    }
   }
 }
