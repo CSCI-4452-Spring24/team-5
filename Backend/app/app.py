@@ -29,12 +29,12 @@ def get_weather_info():
     #obtain zipcode from app input
     zip_code = request.json.get('zip_code')
     if not zip_code:
-        return jsonify({"error": "ZIP code is required."}), 400
+        return jsonify({"error: " "ZIP code is required."}), 400
 
     #process zip code resolution to lat/lon
     latitude, longitude = get_lat_lon_from_zip(zip_code)
     if latitude is None or longitude is None:
-        return jsonify({"error":"Could not find latitude and longitude for the given ZIP code."}), 404
+        return jsonify({"error: ""Could not find latitude and longitude for the given ZIP code."}), 404
 
     #authenticate weatherAPI connection w/ lat/lon
     weather_api_key = os.environ.get('WEATHER_API_KEY')
@@ -61,7 +61,7 @@ def get_weather_info():
         return jsonify(current_weather_info)
         
     else:
-        return jsonify({"error" : "Unable to fetch weather data"}), 500    
+        return jsonify("error: "  "Unable to fetch weather data"), 500    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
