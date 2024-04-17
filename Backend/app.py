@@ -4,10 +4,10 @@ import requests
 #
 app = Flask(__name__)
 
-#default route definition for testing 
+#default route definition for testing
 @app.route('/')
 def home():
-    return "Hello, World!"
+    return "welcome to the weather API"
 
 #geocoding logic
 def get_lat_lon_from_zip(zip_code):
@@ -69,4 +69,4 @@ def get_weather_info():
         return jsonify({"error" : "Unable to fetch weather data"}), 500    
 #
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
