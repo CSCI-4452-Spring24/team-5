@@ -18,20 +18,6 @@ jobs:
       run: docker build -t stormsentry-backend .
       working-directory: ./Backend
 
-    - name: Build and start services using Docker Compose
-      run: docker-compose up --build -d
-      working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-
-    - name: Shutdown Docker Compose services
-      run: docker-compose down
-      working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-
   test_flask_app:
     needs: build_and_validate_docker
     runs-on: ubuntu-latest
