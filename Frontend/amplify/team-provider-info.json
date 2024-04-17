@@ -1,23 +1,4 @@
 {
-  "dev": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-stormsentry-dev-72fc5-authRole",
-      "UnauthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-authRole",
-      "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-stormsentry-dev-72fc5-deployment",
-      "UnauthRoleName": "amplify-stormsentry-dev-72fc5-unauthRole",
-      "StackName": "amplify-stormsentry-dev-72fc5",
-      "StackId": "arn:aws:cloudformation:us-east-1:776347966457:stack/amplify-stormsentry-dev-72fc5/1696a350-f56f-11ee-b94d-0e27dde01c81",
-      "AmplifyAppId": "d2zuxczr9qzrdc"
-    },
-    "categories": {
-      "auth": {
-        "stormsentry82ff1777": {},
-        "stormsentry7629c4e3": {}
-      }
-    }
-  },
   "appdev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-stormsentry-appdev-148b8-authRole",
@@ -51,6 +32,25 @@
     "categories": {
       "auth": {
         "stormsentry27a38ccc": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stormsentry-dev-72fc5-authRole",
+      "UnauthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::776347966457:role/amplify-stormsentry-dev-72fc5-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stormsentry-dev-72fc5-deployment",
+      "UnauthRoleName": "amplify-stormsentry-dev-72fc5-unauthRole",
+      "StackName": "amplify-stormsentry-dev-72fc5",
+      "StackId": "arn:aws:cloudformation:us-east-1:776347966457:stack/amplify-stormsentry-dev-72fc5/1696a350-f56f-11ee-b94d-0e27dde01c81",
+      "AmplifyAppId": "d2zuxczr9qzrdc"
+    },
+    "categories": {
+      "auth": {
+        "stormsentry82ff1777": {},
+        "stormsentry7629c4e3": {}
       }
     }
   }
