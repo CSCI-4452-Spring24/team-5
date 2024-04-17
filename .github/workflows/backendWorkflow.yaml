@@ -9,30 +9,7 @@ on:
 
 jobs:
 
-  build_and_validate_docker:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Build and start services
-      run: |
-        docker-compose up --build -d
-        echo "Docker services started successfully."
-      working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-
-    - name: Shutdown Docker Compose services
-      run: docker-compose down
-      working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-
-  test_flask_app:
-    needs: build_and_validate_docker
+    test_flask_app:
     runs-on: ubuntu-latest
 
     steps:
@@ -46,19 +23,19 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r Backend/app/requirements.txt
+        pip install -r Backend/requirements.txt
   
     - name: Run unit tests
       run: |
         echo "Running unit tests."
         python -m unittest test_app.py
-      working-directory: ./Backend/app
+      working-directory: ./Backend/
       env:
         WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
   
   deploy:
-    needs: [build_and_validate_docker, test_flask_app]
+    needs: test_flask_app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -77,7 +54,7 @@ jobs:
         run: |
           echo "Building Docker image to push"
           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest .
-        working-directory: ./Backend/app
+        working-directory: ./Backend/
 
       - name: Push Flask Docker image to AWS ECR
         run: |
