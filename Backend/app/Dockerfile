@@ -1,13 +1,31 @@
 # app/Dockerfile
+
+#on alpine image
 FROM python:3.9-alpine
 
+#install nginx
+RUN apk update && \
+    apk add --no-cache nginx py3-pip && \
+    mkdir -p /run/nginx
+
+#chdir to /app
 WORKDIR /app
 
+#install python/app dependencies
 COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN apk add --no-cache python3 py3-pip
-RUN pip3 install -r requirements.txt
-
+#copy the application
 COPY . .
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+#copy Nginx conf to forward requests to Flask
+COPY nginx.conf /etc/nginx/nginx.conf
+
+#expose port 80 for nginx
+EXPOSE 80
+
+#run start shell script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod + x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
