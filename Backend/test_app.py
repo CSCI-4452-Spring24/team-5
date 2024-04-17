@@ -2,7 +2,7 @@
 
 import unittest
 import json
-from app import app
+import app
 import os
 
 class WeatherAppTestCase(unittest.TestCase):
