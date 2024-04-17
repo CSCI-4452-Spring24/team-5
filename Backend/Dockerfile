@@ -21,7 +21,7 @@ COPY default.conf /etc/nginx/default.conf
 #expose port 80 for nginx
 EXPOSE 80
 
-#run start shell script
+#run start shell script 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
