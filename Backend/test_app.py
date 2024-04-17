@@ -1,8 +1,8 @@
-# test_app.py
+# test_app.py 
 
 import unittest
 import json
-from app import app  # Adjust the import path as necessary
+from app import app
 import os
 
 class WeatherAppTestCase(unittest.TestCase):

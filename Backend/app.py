@@ -4,6 +4,11 @@ import requests
 #
 app = Flask(__name__)
 
+#default route definition for testing 
+@app.route('/')
+def home():
+    return "Hello, World!"
+
 #geocoding logic
 def get_lat_lon_from_zip(zip_code):
     geocode_api_key = os.environ.get('GEOCODE_API_KEY')
