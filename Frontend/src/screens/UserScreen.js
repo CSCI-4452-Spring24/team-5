@@ -19,18 +19,15 @@ const UserScreen = () => {
     const [weatherData, setWeatherData] = useState(null);
 
     // const { user } = useAuthenticator(userSelector)
-
+    
+    //TODO: Add auth token verification
     const fetchWeatherData = async (zipCode) => {
         try {
             const response = await axios.post(
-                'https://54.226.214.102:443/api/weather ',
+                '',
                 { zip_code: zipCode },
-                // {
-                //     headers: {
-                //         'Authorization': `Bearer ${authToken}`
-                //     }
-                // }
             );
+
             console.log('Response from server:', response.data);
             return response.data;
         } catch (error) {
@@ -64,9 +61,7 @@ const UserScreen = () => {
     
     const handleSubmit = async () => {
         if (!validateZipcode(zipcode)) {
-
             alert('Please enter exactly 5 digits for the zipcode.');
-            return;
         } else {
             const response = await fetchWeatherData(zipcode);
             if (response) {
@@ -197,7 +192,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#333',
         backgroundColor: 'white',
-        width: '25%'
+        width: '25%',
     },
     submitText: {
         color: '#333',
