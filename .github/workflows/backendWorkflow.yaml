@@ -9,31 +9,31 @@ on:
 
 jobs:
 
-    test_flask_app:
-    runs-on: ubuntu-latest
+  test_flask_app:
+  runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-  
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.9'
-  
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r Backend/requirements.txt
-  
-    - name: Run unit tests
-      run: |
-        echo "Running unit tests."
-        python -m unittest test_app.py
-      working-directory: ./Backend/
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-  
+  steps:
+  - uses: actions/checkout@v2
+
+  - name: Set up Python
+    uses: actions/setup-python@v2
+    with:
+      python-version: '3.9'
+
+  - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+      pip install -r Backend/requirements.txt
+
+  - name: Run unit tests
+    run: |
+      echo "Running unit tests."
+      python -m unittest test_app.py
+    working-directory: ./Backend/
+    env:
+      WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+      GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
+        
   deploy:
     needs: test_flask_app
     runs-on: ubuntu-latest
