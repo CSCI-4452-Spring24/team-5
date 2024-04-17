@@ -73,7 +73,7 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build Flask Docker image
+      - name: Build Flask/nginx Docker image
         run: |
           echo "Building Docker image to push"
           docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest .
