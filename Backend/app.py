@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import os
 import requests
 import weather_utils
 #
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 #default route definition for testing
 @app.route('/')
@@ -61,7 +64,7 @@ def get_weather_info():
         return jsonify({"error" : "Unable to fetch weather data"}), 500
 
 #same logic but for forecasts
-@app.route('/api/forecast/', methods=['POST'])    
+@app.route('/api/forecast/', methods=['POST'])
 def get_forecast_info():
         #obtain zipcode from app input
     zip_code = request.json.get('zip_code')
@@ -93,4 +96,4 @@ def get_forecast_info():
         return jsonify({"error" : "Unable to fetch weather data"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)
