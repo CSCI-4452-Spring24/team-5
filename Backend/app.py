@@ -69,4 +69,4 @@ def get_weather_info():
         return jsonify({"error" : "Unable to fetch weather data"}), 500    
 #
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)
