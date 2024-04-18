@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify
 import os
 import requests
+import weather_utils
 #
 app = Flask(__name__)
 
 #default route definition for testing
 @app.route('/')
 def home():
-    return "welcome to the weather API"
+    return "Welcome to the weather API"
 
 #geocoding logic
 def get_lat_lon_from_zip(zip_code):
@@ -28,7 +29,7 @@ def get_lat_lon_from_zip(zip_code):
         return None, None
 
 #jsonify object will be returned to awsdomain.com/api/weather (target for axios in react app)
-@app.route('/api/weather', methods=['POST'])
+@app.route('/api/weather/', methods=['POST'])
 def get_weather_info():
     
     #obtain zipcode from app input
@@ -51,22 +52,46 @@ def get_weather_info():
 
     response = requests.get(current_url, params=params)
 
-
     if response.status_code == 200:
         data = response.json()
-
-        current_weather_info = {
-            "rainfall" : data['current'].get('precip_mm'),
-            "temperature" : data['current'].get('temp_c', 0),
-            "feels_like_temp" : data['current'].get('feelslike_c', 0),
-            "humidity" : data['current'].get('humidity', 0),
-            "wind_speed" : data['current'].get('wind_mph', 0),
-            "wind_dir" : data['current'].get('wind_dir', 'N/A')
-            }    
+        current_weather_info = weather_utils.extract_current(data) 
         return jsonify(current_weather_info)
         
     else:
-        return jsonify({"error" : "Unable to fetch weather data"}), 500    
+        return jsonify({"error" : "Unable to fetch weather data"}), 500
+
+#same logic but for forecasts
+@app.route('/api/forecast/', methods=['POST'])    
+def get_forecast_info():
+        #obtain zipcode from app input
+    zip_code = request.json.get('zip_code')
+    if not zip_code:
+        return jsonify({"error" : "ZIP code is required."}), 400
+
+    #process zip code resolution to lat/lon
+    latitude, longitude = get_lat_lon_from_zip(zip_code)
+    if latitude is None or longitude is None:
+        return jsonify({"error" : " Could not find latitude and longitude for the given ZIP code."}), 404
+
+    #authenticate weatherAPI connection w/ lat/lon
+    weather_api_key = os.environ.get('WEATHER_API_KEY')
+    forecast_url = 'http://api.weatherapi.com/v1/forecast.json'
+    params = {
+        'key': weather_api_key,
+        'q': f"{latitude},{longitude}"
+    }
+
+    response = requests.get(forecast_url, params=params)
+
+    if response.status_code == 200:
+        forecast_data = response.json()
+        forecast_info = weather_utils.extract_forecast(forecast_data) 
+        return jsonify(forecast_info)
+        
+    else:
+        return jsonify({"error" : "Unable to fetch weather data"}), 500
+
+        
 #
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
