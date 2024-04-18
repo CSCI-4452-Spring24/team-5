@@ -3,7 +3,7 @@
 #on alpine image
 FROM python:3.9-alpine
 
-#install nginx
+#install
 RUN apk add --no-cache py3-pip && \
     apk update
 
