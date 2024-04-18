@@ -7,77 +7,50 @@ import { useFonts } from 'expo-font';
 //import Rain from 'rainy-background-reactnative';
 
 import SignOutButton from "../components/SignOutButton";
+import useWeatherData from "../hooks/useWeatherData";
 
 const UserScreen = () => {
+
     const [loaded] = useFonts({
         'FastupScRegular': require('../../assets/fonts/FastupScRegular-Yzjgv.ttf'),
     });
-
     const [zipcode, setZipcode] = useState('');
-    const [locked, setLocked] = useState(false);
     const [showWeather, setShowWeather] = useState(false);
-    const [weatherData, setWeatherData] = useState(null);
-
+    const [fetchWeatherData, response, errorMessage] = useWeatherData();
+    const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
     // const { user } = useAuthenticator(userSelector)
     
-    //TODO: Add auth token verification
-    const fetchWeatherData = async (zipCode) => {
-        try {
-            const response = await axios.post(
-                '',
-                { zip_code: zipCode },
-            );
-
-            console.log('Response from server:', response.data);
-            return response.data;
-        } catch (error) {
-            handleServerError(error);
-            return null;
-        }
-    };
-
+    
     const validateZipcode = (zipcode) => {
         const zipRegex = /^\d{5}$/;
         return zipRegex.test(zipcode);
     };
     
-    // const handleClientError = (message) => {
-    //     console.error('Client-side error:', message);
-    //     alert('Error: ' + message);
-    //     handleReset();
-    // };
-    
-    const handleServerError = (error) => {
-        console.error(error); 
-        alert(error.response ? error.response.data.error : 'Server error');
-    };
-    
-    
-    const handleSubmitSuccessful = (response) => {
-        setLocked(true);
+    const handleResponseSuccessful = () => {
         setShowWeather(true);
-        setWeatherData(response);
     };
     
-    const handleSubmit = async () => {
+    const handleInputSubmission = async () => {
         if (!validateZipcode(zipcode)) {
             alert('Please enter exactly 5 digits for the zipcode.');
         } else {
-            const response = await fetchWeatherData(zipcode);
-            if (response) {
-                // const response = {
-                //     temperature: '72f',
-                // }
-                handleSubmitSuccessful(response);
+            setIsSubmitDisabled(true);
+            
+            await fetchWeatherData(zipcode);
+            if (errorMessage) {
+                alert(errorMessage);
+                setIsSubmitDisabled(false);
+            } else {
+                console.log(response);
+                handleResponseSuccessful();
             }
         }
     };
     
     const handleReset = () => {
-        setLocked(false);
         setZipcode('');
         setShowWeather(false);
-        setWeatherData(null);
+        setIsSubmitDisabled(false);
     };
     
     if (!loaded) {
@@ -96,7 +69,7 @@ const UserScreen = () => {
                         {/* <Text style={styles.userInfo}>Welcome {user.username}</Text> */}
                     </View>
 
-                    {!locked ? (
+                    {!showWeather ? (
                         <View style={styles.inputContainer}>
                             <TextInput
                                 style={[styles.button, {marginRight: '1%',width: '50%'}]}
@@ -105,10 +78,14 @@ const UserScreen = () => {
                                 value={zipcode}
                                 keyboardType="number-pad"
                                 maxLength={5}
-                                editable={!locked}
-                                onEndEditing={handleSubmit}
+                                editable={!showWeather}
+                                onEndEditing={handleInputSubmission}
                             />
-                            <TouchableOpacity style={[styles.button, {width: '22.5%'}]} onPress={handleSubmit}>
+                            <TouchableOpacity 
+                                style={[styles.button, {width: '22.5%'}]} 
+                                onPress={handleInputSubmission}
+                                disabled={isSubmitDisabled}
+                            >
                                     <Text style={styles.submitText}>Submit</Text>
                             </TouchableOpacity>
                         </View>
@@ -168,7 +145,7 @@ const styles = StyleSheet.create({
         flex: .675,
     },
     weatherInfoContainer: {
-        borderWidth: 1,
+        //borderWidth: 1,
         borderColor: '#888',
         borderRadius: 20,
         marginHorizontal: '5%',
