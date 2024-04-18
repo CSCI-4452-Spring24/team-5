@@ -78,7 +78,8 @@ def get_forecast_info():
     forecast_url = 'http://api.weatherapi.com/v1/forecast.json'
     params = {
         'key': weather_api_key,
-        'q': f"{latitude},{longitude}"
+        'q': f"{latitude},{longitude}",
+        'days': 1
     }
 
     response = requests.get(forecast_url, params=params)
@@ -91,7 +92,5 @@ def get_forecast_info():
     else:
         return jsonify({"error" : "Unable to fetch weather data"}), 500
 
-        
-#
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)

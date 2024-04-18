@@ -17,6 +17,14 @@ def extract_current(data):
     }
     return current_weather_JSON
 
+def extract_condition(data):
+    """Extract weather conditions."""
+    return {
+        "text": data['condition']['text'],
+        "icon_url": data['condition']['icon'],
+        "code": data['condition']['code']
+    }
+
 def extract_forecast_data(forecast_data):
     """Extracts forecast information from API response data for daily and hourly forecasts."""
     daily_forecasts = []
