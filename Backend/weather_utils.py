@@ -14,19 +14,11 @@ def extract_current(data):
         "humidity": data['current'].get('humidity', e),
         "cloud_cover": data['current'].get('cloud', e),
         "feelslike_c": data['current'].get('feelslike_c', e),
-        "feelslike_f": data['current'].get('feelslike_f', e)        
+        "feelslike_f": data['current'].get('feelslike_f', e),
+        "text": data['current']['condition']['text'],
+        "icon_url": data['current']['condition']['icon']   
     }
     return current_weather_JSON
-
-def extract_condition(data):
-    """Extract weather conditions."""
-    weather_conditions = {
-        "text": data['condition']['text'],
-        "icon_url": data['condition']['icon'],
-        "code": data['condition']['code']
-    }
-
-    return weather_conditions
 
 def extract_forecast_data(forecast_data):
     """Extracts forecast information from API response data for daily and hourly forecasts."""
@@ -49,7 +41,8 @@ def extract_forecast_data(forecast_data):
                 'temperature_c': hour['temp_c'] if 'temp_c' in hour else None,
                 'will_it_rain': hour['will_it_rain'],
                 'chance_of_rain': hour['chance_of_rain'],
-                'condition': hour['condition']['text']
+                'text': hour['condition']['text'],
+                'icon_url': hour['condition']['icon']
             }
             hourly_forecasts.append(hourly)
         daily['hourly_forecasts'] = hourly_forecasts
