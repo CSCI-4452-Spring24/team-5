@@ -1,19 +1,20 @@
 #weather-utils.py
 
 def extract_current(data):
+    e = 'error'
     """extracts and assigns field based key values from JSON response data"""
     current_weather_JSON = {
-        "last_updated": data['current'].get('last_updated', 00:00:00),
-        "temp_c": data['current'].get('temp_c', 0),
-        "temp_f": data['current'].get('temp_f', 0),
-        "wind_mph": data['current'].get('wind_mph', 0),
-        "wind_dir": data['current'].get('wind_dir', 'N/A')
-        "precip_mm": data['current'].get('precip_mm'),
-        "precip_in": data['current'].get('precip_in'),
-        "humidity": data['current'].get('humidity', 0),
-        "cloud_cover": data['current'].get('cloud', 0),
-        "feelslike_c": data['current'].get('feelslike_c', 0),
-        "feelslike_f": data['current'].get('feelslike_f', 0)        
+        "last_updated": data['current'].get('last_updated', e),
+        "temp_c": data['current'].get('temp_c', e),
+        "temp_f": data['current'].get('temp_f', e),
+        "wind_mph": data['current'].get('wind_mph', e),
+        "wind_dir": data['current'].get('wind_dir', e),
+        "precip_mm": data['current'].get('precip_mm', e),
+        "precip_in": data['current'].get('precip_in', e),
+        "humidity": data['current'].get('humidity', e),
+        "cloud_cover": data['current'].get('cloud', e),
+        "feelslike_c": data['current'].get('feelslike_c', e),
+        "feelslike_f": data['current'].get('feelslike_f', e)        
     }
     return current_weather_JSON
 

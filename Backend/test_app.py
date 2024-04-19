@@ -1,9 +1,7 @@
-# test_app.py 
-
+# test_app.py
 import unittest
 import json
 from app import app
-import os
 
 class WeatherAppTestCase(unittest.TestCase):
 
@@ -14,7 +12,8 @@ class WeatherAppTestCase(unittest.TestCase):
     def test_weather_info_post_valid_zip(self):
 
         """Test posting a valid ZIP code returns a successful response."""
-        response = self.client.post('/api/weather', json={'zip_code': '70119'})
+        response = self.client.post('/api/weather/', json={'zip_code': '70119'})
+        print(response)
         self.assertEqual(response.status_code, 200)
         
         data = json.loads(response.get_data(as_text=True))

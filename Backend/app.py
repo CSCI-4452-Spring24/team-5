@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 import os
 import requests
 import weather_utils
+
 #
 app = Flask(__name__)
 cors = CORS(app)
@@ -34,7 +35,7 @@ def get_lat_lon_from_zip(zip_code):
 #jsonify object will be returned to awsdomain.com/api/weather (target for axios in react app)
 @app.route('/api/weather/', methods=['POST'])
 def get_weather_info():
-    
+
     #obtain zipcode from app input
     zip_code = request.json.get('zip_code')
     if not zip_code:
