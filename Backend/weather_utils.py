@@ -19,11 +19,13 @@ def extract_current(data):
 
 def extract_condition(data):
     """Extract weather conditions."""
-    return {
+    weather_conditions = {
         "text": data['condition']['text'],
         "icon_url": data['condition']['icon'],
         "code": data['condition']['code']
     }
+
+    return weather_conditions
 
 def extract_forecast_data(forecast_data):
     """Extracts forecast information from API response data for daily and hourly forecasts."""
@@ -31,13 +33,13 @@ def extract_forecast_data(forecast_data):
     for day in forecast_data['forecastday']:
         daily = {
             'date': day['date'],
-            'max_temp_c': day['day']['maxtemp_c'],
-            'min_temp_c': day['day']['mintemp_c'],
-            'avg_temp_c': day['day']['avgtemp_c'],
-            'max_wind_mph': day['day']['maxwind_mph'],
-            'total_precip_mm': day['day']['totalprecip_mm'],
-            'chance_of_rain': day['day']['daily_chance_of_rain'],
-            'humidity': day['day']['avghumidity']
+            'max_temp_c': day['day'].get('maxtemp_c', 0),
+            'min_temp_c': day['day'].get('mintemp_c', 0),
+            'avg_temp_c': day['day'].get('avgtemp_c', 0),
+            'max_wind_mph': day['day'].get('maxwind_mph', 0),
+            'total_precip_mm': day['day'].get('totalprecip_mm', 0),
+            'chance_of_rain': day['day'].get('daily_chance_of_rain', 0),
+            'humidity': day['day'].get('avghumidity', 0)
         }
         hourly_forecasts = []
         for hour in day['hour']:
