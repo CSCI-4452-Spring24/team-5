@@ -3,7 +3,7 @@
 #on alpine image
 FROM python:3.9-alpine
 
-#install nginx
+#install pip and update
 RUN apk add --no-cache py3-pip && \
     apk update
 
@@ -15,6 +15,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
 #expose port 80 for http connections
-EXPOSE 80
+EXPOSE 5000
 
-CMD ["flask", "run", "--host=0.0.0.0", "--port=80"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
