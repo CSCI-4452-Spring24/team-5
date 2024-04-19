@@ -47,13 +47,9 @@ jobs:
 
   versioning:
     needs: [build_and_validate_docker, test_flask_app]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    
+    runs-on: ubuntu-latest  
     outputs: 
-      version: ${{steps.version.outputs.version}}
+      version: ${{ steps.version.outputs.version }}
     steps:
 
     - name: Semantic Versioning
@@ -75,6 +71,7 @@ jobs:
           enable_prerelease_mode: true
           debug: false
           version_from_branch: false
+          
     - name: Output version
       run: echo "Generated version is ${{ steps.version.outputs.version }}"
         
@@ -98,5 +95,5 @@ jobs:
 
     - name: Build and Push Flask/nginx Docker image to AWS ECR
       run: |
-        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ steps.version.outputs.version }} ./Backend
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ steps.version.outputs.version }}
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.version.outputs.version }} ./Backend
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.version.outputs.version }}
