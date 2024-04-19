@@ -46,7 +46,7 @@ jobs:
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
 
   versioning_labeling:
-
+    needs: [build_and_validate_docker, test_flask_app]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -77,7 +77,7 @@ jobs:
           version_from_branch: false
 
   deploy:
-    needs: [build_and_validate_docker, test_flask_app]
+    needs: [build_and_validate_docker, test_flask_app, versioning_labeling]
     runs-on: ubuntu-latest
 
     steps:
