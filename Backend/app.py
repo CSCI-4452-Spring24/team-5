@@ -77,7 +77,7 @@ def get_forecast_info():
     if latitude is None or longitude is None:
         return jsonify({"error" : " Could not find latitude and longitude for the given ZIP code."}), 404
 
-    #authenticate weatherAPI connection w/ lat/lon
+    #authenticate weatherAPI connection w/ lat/lon 
     weather_api_key = os.environ.get('WEATHER_API_KEY')
     forecast_url = 'http://api.weatherapi.com/v1/forecast.json'
     params = {
