@@ -17,6 +17,7 @@ class WeatherAppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         
         data = json.loads(response.get_data(as_text=True))
+        print(data)
         self.assertIn('temp_c', data)
         self.assertIn('humidity', data)
         self.assertIn('precip_mm', data)   
