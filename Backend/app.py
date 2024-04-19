@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 #default route definition for testing
 @app.route('/')
 def home():
-    return "functional and responsive"
+    return "responsive and functional"
 
 #geocoding logic
 def get_lat_lon_from_zip(zip_code):
