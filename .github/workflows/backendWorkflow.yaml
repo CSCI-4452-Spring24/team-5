@@ -51,7 +51,9 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-
+    
+    outputs: 
+      version: ${{steps.version.outputs.version}}
     steps:
 
     - name: Semantic Versioning
@@ -73,6 +75,9 @@ jobs:
           enable_prerelease_mode: true
           debug: false
           version_from_branch: false
+    - name: Output version
+      run: echo "Generated version is ${{ steps.version.outputs.version }}"
+        
 
   deploy:
     needs: [build_and_validate_docker, test_flask_app, versioning]
