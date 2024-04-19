@@ -45,7 +45,7 @@ jobs:
         WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
 
-  versioning_labeling:
+  versioning:
     needs: [build_and_validate_docker, test_flask_app]
     runs-on: ubuntu-latest
     permissions:
@@ -53,12 +53,10 @@ jobs:
       pull-requests: write
 
     steps:
-      #Labeling (marks down which files altered in a push)
-    - uses: actions/labeler@v4
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        #Semantic Versioning
-    - uses: paulhatch/semantic-version@v5.3.0
+
+    - name: Semantic Versioning
+      id: version
+      uses: paulhatch/semantic-version@v5.3.0
       with:
           tag_prefix: "v"
           major_pattern: "(MAJOR)"
@@ -77,7 +75,7 @@ jobs:
           version_from_branch: false
 
   deploy:
-    needs: [build_and_validate_docker, test_flask_app, versioning_labeling]
+    needs: [build_and_validate_docker, test_flask_app, versioning]
     runs-on: ubuntu-latest
 
     steps:
@@ -95,5 +93,5 @@ jobs:
 
     - name: Build and Push Flask/nginx Docker image to AWS ECR
       run: |
-        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest ./Backend
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ steps.version.outputs.version }} ./Backend
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ steps.version.outputs.version }}
