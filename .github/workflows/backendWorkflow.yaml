@@ -61,9 +61,9 @@ jobs:
           minor_pattern: "(MINOR)"
           minor_regexp_flags: ""
           version_format: "${major}.${minor}.${patch}-prerelease${increment}"
-          change_path: "Backend/**"
+          change_path: "./Backend/**"
           namespace: stormSentry
-          bump_each_commit: false
+          bump_each_commit: true
           bump_each_commit_patch_pattern: ""
           search_commit_body: true
           user_format_type: "csv"
