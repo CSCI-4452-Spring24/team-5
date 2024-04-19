@@ -45,6 +45,37 @@ jobs:
         WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
 
+  versioning_labeling:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      #Labeling (marks down which files altered in a push)
+    - uses: actions/labeler@v4
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        #Semantic Versioning
+    - uses: paulhatch/semantic-version@v5.3.0
+      with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          major_regexp_flags: ""
+          minor_pattern: "(MINOR)"
+          minor_regexp_flags: ""
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          change_path: "Backend/**"
+          namespace: stormSentry
+          bump_each_commit: false
+          bump_each_commit_patch_pattern: ""
+          search_commit_body: false
+          user_format_type: "csv"
+          enable_prerelease_mode: true
+          debug: false
+          version_from_branch: false
+
   deploy:
     needs: [build_and_validate_docker, test_flask_app]
     runs-on: ubuntu-latest
