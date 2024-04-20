@@ -1,4 +1,4 @@
-#Backend/nginx/Dockerfile
+#Backend/nginx/Dockerfile 
 FROM nginx:latest
 
 # Remove the existing default.conf
