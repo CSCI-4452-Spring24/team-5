@@ -92,7 +92,7 @@ jobs:
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v1
     
-    - name: Build and Push Flask/nginx Docker image to AWS ECR
+    - name: Build and Push Flask Docker image to AWS ECR
       run: |
         echo "Using version ${{ needs.versioning.outputs.version }}"
         docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.versioning.outputs.version }} ./Backend
