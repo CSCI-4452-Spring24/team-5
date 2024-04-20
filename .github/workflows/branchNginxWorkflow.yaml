@@ -20,11 +20,17 @@ jobs:
         working-directory: ./Backend/nginx
 
       - name: Run Docker container
-        run: docker run -d --name nginx-test -p 8080:80 stormsentry-nginx
+        run: |
+          docker run -d --name nginx-test -p 8080:80 stormsentry-nginx
+          #wait for health check to verify service is booted before continuing to tests
+          until [ "$(docker inspect --format='{{.State.Health.Status}}' nginx-test)" == "healthy" ]; do
+              sleep 1;
+              echo "Waiting for Nginx to be ready...";
+          done
+
 
       - name: Test Nginx responses
         run: |
-          sleep 5  # wait for Nginx to start
           response=$(curl -o /dev/null -s -w "%{http_code}\n" http://localhost:8080)
           if [ "$response" -ne 200 ]; then
             echo "Nginx did not return a 200 OK on the root path"
