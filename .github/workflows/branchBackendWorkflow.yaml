@@ -1,4 +1,4 @@
-name: dev_CI for StormSentry (stephen-edits)
+name: CI for StormSentry (stephen-edits)
 
 on:
   push:

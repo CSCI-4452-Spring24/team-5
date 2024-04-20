@@ -17,6 +17,7 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t stormsentry-nginx .
+        working-directory: ./Backend/nginx
 
       - name: Run Docker container
         run: docker run -d --name nginx-test -p 8080:80 stormsentry-nginx
