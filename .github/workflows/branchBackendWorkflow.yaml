@@ -6,6 +6,8 @@ on:
       - stephen-edits
     paths:
       - 'Backend/**'
+    paths-ignore:
+      - 'Backend/nginx'
 
 jobs:
   build_and_validate_docker:
