@@ -33,7 +33,7 @@ def get_lat_lon_from_zip(zip_code):
         return None, None
 
 #jsonify object will be returned to awsdomain.com/api/weather (target for axios in react app)
-@app.route('/api/weather/', methods=['POST'])
+@app.route('/api/weather', methods=['POST'])
 def get_weather_info():
 
     #obtain zipcode from app input
@@ -65,7 +65,7 @@ def get_weather_info():
         return jsonify({"error" : "Unable to fetch weather data"}), 500
 
 #same logic but for forecasts
-@app.route('/api/forecast/', methods=['POST'])
+@app.route('/api/forecast', methods=['POST'])
 def get_forecast_info():
         #obtain zipcode from app input
     zip_code = request.json.get('zip_code')
