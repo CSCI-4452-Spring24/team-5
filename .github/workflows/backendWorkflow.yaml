@@ -1,4 +1,4 @@
-name: CI for StormSentry (github)
+name: CI for StormSentry (GitHub)
 
 on:
   push:
@@ -8,36 +8,22 @@ on:
       - 'Backend/**'
 
 jobs:
-
   build_and_validate_docker:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build and start services
-      run: |
-        docker-compose up --build -d
-        echo "Docker services started successfully."
+    - name: Build Docker image using Dockerfile
+      run: docker build -t stormsentry-backend .
       working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
-
-    - name: Shutdown Docker Compose services
-      run: docker-compose down
-      working-directory: ./Backend
-      env:
-        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
 
   test_flask_app:
-    needs: build_and_validate_docker
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-  
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -46,13 +32,68 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r Backend/app/requirements.txt
+        pip install -r requirements.txt
+      working-directory: ./Backend
   
     - name: Run unit tests
       run: |
         echo "Running unit tests."
         python -m unittest test_app.py
-      working-directory: ./Backend/app
+      working-directory: ./Backend
       env:
         WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
+
+  versioning:
+    needs: [build_and_validate_docker, test_flask_app]
+    runs-on: ubuntu-latest  
+    outputs: 
+      version: ${{ steps.version.outputs.version }}
+    steps:
+
+    - name: Semantic Versioning
+      id: version
+      uses: paulhatch/semantic-version@v5.3.0
+      with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          major_regexp_flags: ""
+          minor_pattern: "(MINOR)"
+          minor_regexp_flags: ""
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          change_path: "Backend/**"
+          namespace: stormSentry
+          bump_each_commit: false
+          bump_each_commit_patch_pattern: ""
+          search_commit_body: true
+          user_format_type: "csv"
+          enable_prerelease_mode: true
+          debug: false
+          version_from_branch: false
+          
+    - name: Output version
+      run: echo "Generated version is ${{ steps.version.outputs.version }}"
+        
+
+  deploy:
+    needs: [build_and_validate_docker, test_flask_app, versioning]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v1
+    
+    - name: Build and Push Flask/nginx Docker image to AWS ECR
+      run: |
+        echo "Using version ${{ needs.versioning.outputs.version }}"
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.versioning.outputs.version }} ./Backend
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.versioning.outputs.version }}
