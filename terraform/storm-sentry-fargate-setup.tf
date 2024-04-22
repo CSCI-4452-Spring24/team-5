@@ -125,7 +125,12 @@ resource "aws_ecs_task_definition" "revise_task_definition" {
           containerPort = 80
           hostPort      = 80
           protocol      = "tcp"
-        }
+        } #,
+       # {
+        #  containerPort = 5000
+         # hostport      = 5000
+          #protocol      = "tcp"
+        #}
       ]
     }
   ])
