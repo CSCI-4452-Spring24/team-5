@@ -137,10 +137,10 @@ locals {
 
 # ECS Service creation
 resource "aws_ecs_service" "my_service" {
-  name            = "Handler_service-tf-create"
+  name            = "nginx_backend_current"
   cluster         = data.aws_ecs_cluster.my_cluster.id
   task_definition = local.task_definition_arn
-  desired_count   = 2
+  desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
