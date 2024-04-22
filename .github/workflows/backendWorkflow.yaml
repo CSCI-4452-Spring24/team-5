@@ -19,7 +19,6 @@ jobs:
       working-directory: ./Backend
 
   test_flask_app:
-    needs: build_and_validate_docker
     runs-on: ubuntu-latest
 
     steps:
@@ -45,8 +44,42 @@ jobs:
         WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
         GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
 
-  deploy:
+  versioning:
     needs: [build_and_validate_docker, test_flask_app]
+    runs-on: ubuntu-latest  
+    outputs: 
+      version: ${{ steps.version.outputs.version }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Semantic Versioning
+      id: version
+      uses: paulhatch/semantic-version@v5.3.0
+      with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          major_regexp_flags: ""
+          minor_pattern: "(MINOR)"
+          minor_regexp_flags: ""
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          change_path: "Backend/**"
+          namespace: stormSentry
+          bump_each_commit: false
+          bump_each_commit_patch_pattern: ""
+          search_commit_body: true
+          user_format_type: "csv"
+          enable_prerelease_mode: true
+          debug: false
+          version_from_branch: false
+          
+    - name: Output version
+      run: echo "Generated version is ${{ steps.version.outputs.version }}"
+        
+
+  deploy:
+    needs: [build_and_validate_docker, test_flask_app, versioning]
     runs-on: ubuntu-latest
 
     steps:
@@ -61,8 +94,9 @@ jobs:
 
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v1
-
+    
     - name: Build and Push Flask/nginx Docker image to AWS ECR
       run: |
-        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest ./Backend
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:latest
+        echo "Using version ${{ needs.versioning.outputs.version }}"
+        docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.versioning.outputs.version }} ./Backend
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/stormsentry-backend:${{ needs.versioning.outputs.version }}

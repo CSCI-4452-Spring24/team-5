@@ -1,0 +1,46 @@
+name: dev_CI for StormSentry (stephen-edits)
+
+on:
+  push:
+    branches:
+      - stephen-edits
+    paths:
+      - 'Backend/**'
+
+jobs:
+  build_and_validate_docker:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build Docker image using Dockerfile
+      run: docker build -t stormsentry-backend .
+      working-directory: ./Backend
+
+  test_flask_app:
+    needs: build_and_validate_docker
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+  
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      working-directory: ./Backend
+  
+    - name: Run unit tests
+      run: |
+        echo "Running unit tests."
+        python -m unittest test_app.py
+      working-directory: ./Backend
+      env:
+        WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        GEOCODE_API_KEY: ${{ secrets.GEOCODE_API_KEY }}
