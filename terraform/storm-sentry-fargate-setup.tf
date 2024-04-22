@@ -11,16 +11,18 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# Put in the version latest tag no longer works. type: terraform plan -var "image_version_backend=1.2.3-whatever-goes-here" 
 variable "image_version_backend" {
   description = "Version of the backend image"
   type        = string
-  default     = "latest"  
+  default     = "0.0.0-prerelease0"  
 }
 
+# Put in the version latest tag no longer works. type: terraform plan -var "image_version_nginx=1.2.3-whatever-goes-here" 
 variable "image_version_nginx" {
   description = "Version of the nginx image"
   type        = string
-  default     = "latest"  
+  default     = "0.0.0-prerelease0"  
 }
 
 
