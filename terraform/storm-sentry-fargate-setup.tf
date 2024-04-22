@@ -114,7 +114,27 @@ resource "aws_ecs_task_definition" "revise_task_definition" {
           hostPort      = 5000
           protocol      = "tcp"
         }
-      ]
+      ],
+       environment = [
+        {
+          name  = "GEOCODE_API_KEY"
+          value = "1432f90ab55b46f389188e50e0b343f4"
+        },
+        {
+          name  = "WEATHER_API_KEY"
+          value = "ba1d11723a39485b9b635358241901"
+        }
+      ],
+      
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/Handler-fargate"
+          awslogs-region        = "us-east-1"
+          awslogs-stream-prefix = "flask-container"
+        }
+      }
+    
     },
     {
       name      = "nginx-container"
@@ -131,7 +151,15 @@ resource "aws_ecs_task_definition" "revise_task_definition" {
          # hostport      = 5000
           #protocol      = "tcp"
         #}
-      ]
+      ],
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/Handler-fargate"
+          awslogs-region        = "us-east-1"
+          awslogs-stream-prefix = "nginx-container"
+        }
+      }
     }
   ])
 }
