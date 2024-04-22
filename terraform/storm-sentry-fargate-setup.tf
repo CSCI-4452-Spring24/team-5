@@ -11,14 +11,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Put in the version latest tag no longer works. type: terraform plan -var "image_version_backend=1.2.3-whatever-goes-here" 
+# Putting in the version "latest" tag no longer works. type: terraform [option] -var "image_version_backend=1.2.3-whatever-goes-here" 
 variable "image_version_backend" {
   description = "Version of the backend image"
   type        = string
   default     = "0.0.0-prerelease0"  
 }
 
-# Put in the version latest tag no longer works. type: terraform plan -var "image_version_nginx=1.2.3-whatever-goes-here" 
+# Putting in the version "latest" tag no longer works. type: terraform [option] -var "image_version_nginx=1.2.3-whatever-goes-here" 
 variable "image_version_nginx" {
   description = "Version of the nginx image"
   type        = string
@@ -26,21 +26,21 @@ variable "image_version_nginx" {
 }
 
 
-# Revise a task definition type terraform plan -var "t_def_revision=true" or "=false" to toggle
+# Revise a task definition type terraform [option] -var "t_def_revision=true" or "=false" to toggle
 variable "t_def_revision" {
   description = "Whether to create a new task definition revision"
   type        = bool
   default     = false
 }
 
-# Create a new task definition. Type: terraform plan -var "t_def_create=true" or "=false" to toggle
+# Create a new task definition. Type: terraform [option] -var "t_def_create=true" or "=false" to toggle
 variable "t_def_create" {
   description = "Toggle to create a new ECS task definition"
   type        = bool
   default     = false
 }
 
-# Revise a task definition type terraform plan -var "cluster_create=true" or "=false" to toggle
+# Revise a task definition type terraform [option] -var "cluster_create=true" or "=false" to toggle
 variable "cluster_create" {
   description = "Toggle to create a new cluster"
   type        = bool
@@ -125,7 +125,7 @@ resource "aws_ecs_task_definition" "revise_task_definition" {
           value = "ba1d11723a39485b9b635358241901"
         }
       ],
-      
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
