@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
         textShadowRadius: 5,
     },
     icons: {
-        size: 24,
         color: 'rgba(0, 0, 0, 0.5)'
     }
     
