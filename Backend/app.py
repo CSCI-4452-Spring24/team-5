@@ -13,7 +13,7 @@ app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 #default route definition for testing
 @app.route('/')
 def home():
-    return "functional and responsive 4/21"
+    return "functional and responsive 4/22"
 
 #geocoding logic
 def get_lat_lon_from_zip(zip_code):
