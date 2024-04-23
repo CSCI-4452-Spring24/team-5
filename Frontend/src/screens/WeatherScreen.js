@@ -15,16 +15,10 @@ const WeatherScreen = ({route}) => {
     const handleReset = () => {
         navigation.navigate('Home', { reset: true });
     };
-{/* <WeatherInfo
-                            label=""
-                            value={`${weatherData.forecast[0].avg_temp_c}°C`}
-                            <Text style={styles.dataText}></Text>
 
-
-                                                            
-                        /> */}
     const navigation = useNavigation();
     const { weatherData, zipcode } = route.params;
+
     return (
         <SafeAreaView style={styles.screenContainer}>
             <LinearGradient
@@ -152,7 +146,6 @@ const styles = StyleSheet.create({
         elevation: 1
     },
     button: {
-        //borderWidth: 1,
         borderColor: '#888',
         borderRadius: 20,
         elevation: 5,
@@ -182,8 +175,7 @@ const styles = StyleSheet.create({
     },
     icons: {
         color: 'rgba(0, 0, 0, 0.5)'
-    }
-    
+    }   
 });
 
 export default WeatherScreen;

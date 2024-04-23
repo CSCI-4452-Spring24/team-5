@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     button: {
-        //borderWidth: 1,
         borderColor: '#888',
         borderRadius: 20,
         elevation: 5,
@@ -143,9 +142,9 @@ const styles = StyleSheet.create({
         color: '#333',
         fontFamily: 'FastupScRegular',
         textAlign: 'center',
-        textShadowColor: 'rgba(0, 0, 0, 0.3)', // Text shadow color
-        textShadowOffset: { width: 2, height: 2 }, // Text shadow offset
-        textShadowRadius: 5, // Text shadow radius
+        textShadowColor: 'rgba(0, 0, 0, 0.3)',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 5,
     },
 });
 
