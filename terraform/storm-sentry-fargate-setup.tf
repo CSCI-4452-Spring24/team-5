@@ -128,6 +128,12 @@ resource "aws_ecs_service" "my_service" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+    load_balancer {
+    elb_name       = aws_elb.elb_create.name
+    container_name = "nginx-container"
+    container_port = 80
+  }
+
   network_configuration {
     subnets = [
       "subnet-062467a95347168a6",
