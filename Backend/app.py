@@ -8,6 +8,7 @@ import weather_utils
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 #default route definition for testing
 @app.route('/')

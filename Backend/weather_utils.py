@@ -25,6 +25,15 @@ def extract_forecast_data(forecast_data):
     if 'forecast' not in forecast_data or 'forecastday' not in forecast_data['forecast']:
         return [] #return empty if errror
 
+    location_info = forecast_data.get('location', {})
+    location = {
+        'city': location_info.get('name', 'Unknown'),
+        'state': location_info.get('region', 'Unknown'),
+        'country': location_info.get('country', 'Unknown'),
+        'latitude': location_info.get('lat', 0),
+        'longitude': location_info.get('lon', 0)
+    }
+
     daily_forecasts = []
     for day in forecast_data['forecast']['forecastday']:
         day_data = day.get('day', {})
@@ -54,4 +63,4 @@ def extract_forecast_data(forecast_data):
             hourly_forecasts.append(hourly)
         daily['hourly_forecasts'] = hourly_forecasts
         daily_forecasts.append(daily)
-    return daily_forecasts
+    return {'location':location, 'forecast': daily_forecasts}
