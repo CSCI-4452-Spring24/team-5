@@ -18,7 +18,7 @@ const SignOutButton = () => {
 
 const styles = StyleSheet.create({
     button: {
-        borderWidth: 1,
+        //borderWidth: 1,
         elevation: 5,
         borderColor: '#888',
         borderRadius: 20,

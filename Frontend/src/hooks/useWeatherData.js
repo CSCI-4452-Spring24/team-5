@@ -1,20 +1,26 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
-export default () => {
-    const [response, setResponse] = useState();
-    const [errorMessage, setErrorMessage] = useState("");
+const useWeatherData = () => {
+    const [response, setResponse] = useState(null);  // Initialize with null for clarity
+    const [errorMessage, setErrorMessage] = useState("");  // Initialize with empty string
 
+    // Function to reset weather data and error message
+    const resetWeatherData = () => {
+        setResponse(null);
+        setErrorMessage("");
+    };
 
-    //TODO: Add auth token verification w/ cognito
+    // Function to fetch weather data
     const fetchWeatherData = async (zipCode) => {
+        resetWeatherData();
         console.log(`Fetching weather data for ${zipCode} from backend`);
-        try{
+        try {
             const response = await axios.post(
-                'http://54.210.74.245:80/api/weather',
+                'http://44.204.197.21/api/forecast/',
                 { zip_code: zipCode },
-                {   
-                    headers: { 
+                {
+                    headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
                     }
@@ -23,24 +29,23 @@ export default () => {
             console.log(response.data);
             setResponse(response.data);
         } catch (error) {
-            if (error.response) { //request made, server responds, but error has occured server side
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
+            console.error('Fetch error:', error);
+            if (error.response) { // Request made and server responded with an error status code
+                console.error('Error data:', error.response.data);
+                console.error('Error status:', error.response.status);
+                console.error('Error headers:', error.response.headers);
                 setErrorMessage(error.response.data.error || 'Server error');
-            } else if (error.request) { //request made, no response from server
-                console.error(error.request);
+            } else if (error.request) { // Request made but no response received
+                console.error('No response:', error.request);
                 setErrorMessage('No response from server');
-            } else { //request not able to be made (wrong ip, etc.)
-                console.error('Error', error.message);
+            } else { // An error occurred in setting up the request
+                console.error('Setup error:', error.message);
                 setErrorMessage('Error setting up the request');
             }
         }
-    }
-
-    /* useEffect( () => {
-        fetchWeatherData(); //default zipcode when openning app from database?
-    }, []); */
+    };
 
     return [fetchWeatherData, response, errorMessage];
 };
+
+export default useWeatherData;
