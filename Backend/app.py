@@ -20,7 +20,7 @@ def get_lat_lon_from_zip(zip_code):
     url = f"https://api.opencagedata.com/geocode/v1/json?q={zip_code}&key={geocode_api_key}&countrycode=US"
     print(f"Requesting URL: {url}")
     response = requests.get(url)
-    print(f"Geocoding API Response: {response.text}")
+    #print(f"Geocoding API Response: {response.text}")
     if response.status_code == 200:
         data = response.json()
         lat = data['results'][0]['geometry']['lat']
@@ -90,11 +90,12 @@ def get_forecast_info():
 
     if response.status_code == 200:
         forecast_data = response.json()
-        forecast_info = weather_utils.extract_forecast(forecast_data) 
+        forecast_info = weather_utils.extract_forecast_data(forecast_data) 
         return jsonify(forecast_info)
+        #return jsonify(forecast_data)
         
     else:
-        return jsonify({"error" : "Unable to fetch weather data"}), 500
+        return jsonify({"error" : "Unable to fetch forecast data"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
