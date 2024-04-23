@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, TextInput, Image} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 
 import { Ionicons } from '@expo/vector-icons';
@@ -36,7 +36,6 @@ const WeatherScreen = ({route}) => {
                     <Text style={[styles.appTitle, {fontSize: 20}]}>{weatherData.location.city}, {weatherData.location.state}</Text>
                     <Text style={[styles.appTitle, {fontSize: 18, fontFamily: 'roboto'}]}>{zipcode}</Text>
                 </View>
-
                 <View style={styles.weatherContainer}>
                     <View style={styles.currentContainer}>
                         <View style={styles.currentRow}>
@@ -47,10 +46,14 @@ const WeatherScreen = ({route}) => {
                                 </View>
                             </View>
                             <View style={styles.currentSquare}>
-                                <Text style={[styles.dataText, {fontSize:36}]}>{Math.round(weatherData.forecast[0].avg_temp_c)}°</Text>
+                                <Text style={[styles.dataText, {fontSize:36}]}> {Math.round(weatherData.forecast[0].avg_temp_c)}°</Text>
                             </View>
                             <View style={styles.currentSquare}>
-                                
+                                <Text style={styles.dataText}> {weatherData.forecast[0].condition_text}</Text>
+                                <Image
+                                    style={{width: '75%', height: '50%',}}
+                                    source={{ uri: `https:${weatherData.forecast[0].condition_icon}` }}
+                                />
                             </View>
                         </View>
 
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         elevation: 5,
         margin: '5%',
-        padding: '1%'
+        padding: '1%',
     },
     forecastContainer: {
         flex: .5,

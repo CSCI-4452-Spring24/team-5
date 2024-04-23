@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     iconStyle: {
         width: '100%',
-        height: '25%',
+        height: '30%',
     },
     divider: {
         height: '100%', // Ensures the divider stretches the full height of the item container
