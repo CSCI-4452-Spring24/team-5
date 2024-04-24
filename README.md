@@ -1,4 +1,4 @@
-## Cloud Computing Project - Team 5
+## Cloud Computing Project - Team 5 -STORM-SENTRY
  
 ## Overview This repository contains the work for Team 5's project in CSCI-4452 (Cloud Computing course), Spring 2024. 
 
