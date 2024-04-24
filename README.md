@@ -13,15 +13,19 @@ A versatile weather application that delivers real-time and forecasted condition
 **Infrastructure:** Terraform, Docker - 
 **Other:** Kotlin, Shell Scripts 
 
-## Project Structure - `.github/workflows`: Contains GitHub Actions for CI/CD. 
+## Project Structure 
+- `.github/workflows`: Contains GitHub Actions for CI/CD. 
 - `Backend`: Backend application code.
 - `Frontend`: Frontend UI code.
-- `terraform`: Infrastructure as code for cloud deployment.
+- `terraform`: Infrastructure as code for cloud deployment. 
   
 ## Getting Started The project is designed for hosting Backend/ on an AWS Fargate task. However, to get a local copy of the RESTful API handler up and running, follow these simple steps: 
 
 ### Prerequisites 
 - Install Docker on your system.
+- Retrieve API keys for:
+- - Opencage - **Environment:** GEOCODE_API_KEY
+- - WeatherAPI - **Environment:** WEATHER_API_KEY
   
 ### Installation 
   1. Clone the repo: git clone https://github.com/CSCI-4452-Spring24/team-5.git
