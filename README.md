@@ -1,9 +1,11 @@
-## Cloud Computing Project - Team 5 
-## STORM-SENTRY
- 
+## STORM-SENTRY Android Application
+### Cloud Computing Project - Team 5 
 ## Overview This repository contains the work for Team 5's project in CSCI-4452 (Cloud Computing course), Spring 2024. 
 
-Our project focuses on building a scalable cloud-based (Android only for now) weather application using a RESTful API handler and Terraform/Docker for automating infrastructure and setup. In addition to the front and backends, the project currently utilizes an Nginx reverse proxy to perform filtering and forwarding on behalf of the client and api handler. 
+Our project focuses on building a scalable cloud-based (Android only for now) weather application using a RESTful API handler and Terraform/Docker for automating infrastructure and setup. In addition to the front and backends, the project currently utilizes an Nginx reverse proxy to perform filtering and forwarding on behalf of the client and api handler.
+
+## Goal
+A versatile weather application that delivers real-time and forecasted conditions for any given zipcode, complete with alert features to warn users of potential local flooding that may affect personal property.
 
 ## Technologies Used - 
 **Frontend:** JavaScript - 
