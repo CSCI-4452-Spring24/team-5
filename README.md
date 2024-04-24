@@ -13,8 +13,8 @@ Our project focuses on building a scalable cloud-based (Android only for now) we
 ## Project Structure - `.github/workflows`: Contains GitHub Actions for CI/CD. 
 - `Backend`: Backend application code.
 - `Frontend`: Frontend UI code.
-- - `terraform`: Infrastructure as code for cloud deployment.
-  -
+- `terraform`: Infrastructure as code for cloud deployment.
+  
 ## Getting Started The project is designed for hosting Backend/ on an AWS Fargate task. However, to get a local copy of the RESTful API handler up and running, follow these simple steps: 
 
 ### Prerequisites 
