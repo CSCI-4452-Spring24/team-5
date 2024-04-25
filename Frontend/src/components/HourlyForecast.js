@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         alignItems: 'center',
-        justifyContent: 'space-around', // Adjusted justifyContent
+        justifyContent: 'space-around',
         backgroundColor: '#F0F0F0',
         borderRadius: 10,
         width: 60,
@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
         height: '30%',
     },
     divider: {
-        height: '100%', // Ensures the divider stretches the full height of the item container
+        height: '100%',
         width: 1,
-        backgroundColor: '#999', // or any color that suits the design
+        backgroundColor: '#999',
     },
 });
 
